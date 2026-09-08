@@ -62,7 +62,7 @@ df = df.dropna(
 
 
 
-# 4. VALIDATE MATCH STRUCTURE ( one observation for each team that way each world cup
+# 4. VALIDATE MATCH STRUCTURE ( one observation for each team that way each
  # match will have two observations):
 
 match_counts = df.groupby("match_id").size()
