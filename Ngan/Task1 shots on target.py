@@ -1,23 +1,15 @@
 """
-PRT551 - Objective 1 - Analytic Task
 Question: On average, how many shots (total) and shots on target (SOT) does
 a team register per match at the FIFA World Cup 2026 group stage, and is
 there a significant difference in EACH of these between winning teams and
-losing teams? (i.e. do winners out-shoot losers, out-accurate them, or both?)
+losing teams? 
 
 Sections:
-  1. Data wrangling      - load & clean the team-match dataset
-  2. Data prep & sampling- define population, draw a simple random sample
-  3. Descriptive stats   - mean/median/sd/IQR for shots & SOT, by result
-  4. Confidence interval - 95% CI for population mean SOT
-  5. Hypothesis tests    - two-sample (Welch) t-tests, winners vs losers,
-                            run separately for shots_total and shots_on_target
-
-NOTE ON DATA:
-  This script expects a CSV called 'team_match_data.csv' with one row per
-  team per WC2026 group-stage match, produced by clean_group_stage_data.py
-  from thestatsdontlie.com data:
-      match_id, team, opponent, result, shots_on_target, shots_total, goals
+  1. Data wrangling      
+  2. Data prep & sampling
+  3. Descriptive stats   
+  4. Confidence interval
+  5. Hypothesis tests    
 """
 
 import numpy as np
@@ -30,9 +22,9 @@ import os
 RNG_SEED = 42
 np.random.seed(RNG_SEED)
 
-# ============================================================
+# <<<<>>>>
 # 1. DATA WRANGLING
-# ============================================================
+# <<<<>>>>
 df = pd.read_csv("team_match_data.csv")
 
 # Basic cleaning: drop rows with missing shots/SOT, enforce valid result labels
@@ -42,9 +34,9 @@ df = df[df["result"].isin(["Win", "Loss", "Draw"])]
 print(f"Population size (all team-match rows): {len(df)}")
 print(df["result"].value_counts(), "\n")
 
-# ============================================================
+# <<<<>>>>
 # 2. DATA PREPARATION & SAMPLING
-# ============================================================
+# <<<<>>>>
 # Population  : all team-match observations, WC2026 group stage
 # Unit        : one team's performance in one match
 # Variables   : shots_total, shots_on_target
@@ -61,9 +53,9 @@ loss_mask = sample_decisive["result"] == "Loss"
 print(f"Decisive-result rows kept for t-tests: {len(sample_decisive)} "
       f"(winners={win_mask.sum()}, losers={loss_mask.sum()})\n")
 
-# ============================================================
+# <<<<>>>>
 # 3. DESCRIPTIVE STATISTICS - for BOTH shots_total and shots_on_target
-# ============================================================
+# <<<<>>>>
 def describe(x, label):
     print(f"--- {label} (n={len(x)}) ---")
     print(f"mean   : {x.mean():.2f}")
@@ -114,9 +106,9 @@ plt.tight_layout()
 plt.savefig("shots_vs_sot_histogram.png", dpi=150)
 print("Saved combined histogram to shots_vs_sot_histogram.png\n")
 
-# ============================================================
+# <<<<>>>>
 # 4. CONFIDENCE INTERVAL (95%, population mean SOT, sigma unknown)
-# ============================================================
+# <<<<>>>>
 x = sample["shots_on_target"]
 n = len(x)
 mean = x.mean()
@@ -128,10 +120,10 @@ print("=== 95% Confidence Interval for population mean SOT ===")
 print(f"x̄ = {mean:.3f}, s = {x.std(ddof=1):.3f}, n = {n}, t* = {t_crit:.3f}")
 print(f"95% CI: ({ci_low:.3f}, {ci_high:.3f})\n")
 
-# ============================================================
+# <<<<>>>>
 # 5. HYPOTHESIS TESTS - two-sample Welch's t-test, run for BOTH variables
 #    H0: mu_win = mu_loss   Ha: mu_win > mu_loss   (one-tailed, each variable)
-# ============================================================
+# <<<<>>>>
 def interpret_d(d):
     d = abs(d)
     if d < 0.2:
