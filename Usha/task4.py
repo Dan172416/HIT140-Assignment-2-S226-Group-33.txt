@@ -466,14 +466,41 @@ plt.savefig(
 
 plt.show()
 
+# 16. Visualization (box plot)
 
+plt.figure(figsize=(7, 5))
 
-# 16. SAVE DESCRIPTIVE STATISTICS
+sample.boxplot(
+    column="goals",
+    by="possession_group",
+    grid=False
+)
+
+plt.title(
+    "Distribution of Goals by Possession Group\n"
+    "FIFA World Cup 2026 Sample"
+)
+
+plt.suptitle("") 
+
+plt.xlabel("Possession Group")
+plt.ylabel("Goals Scored")
+
+plt.tight_layout()
+
+plt.savefig(
+    "goals_by_possession_boxplot.png",
+    dpi=300
+)
+
+plt.show()
+
+# 17. SAVE DESCRIPTIVE STATISTICS
 
 descriptive.to_csv(
     "descriptive_statistics.csv"
 )
-plt.show()
+
 
 print("--ANALYSIS COMPLETE--")
 
@@ -493,4 +520,7 @@ print(
 
 print(
     "mean_goals_by_possession.png"
+)
+print(
+    "goals_by_possession_boxplot.png"
 )
