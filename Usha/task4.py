@@ -2,8 +2,7 @@ import pandas as pd
 
 # TASK 4  (Higher/lower Possession )
 
-# 1. EXTRACT RAW DATA
-
+# 1. Extract the raw data
 
 df = pd.read_csv("worldcup2026_raw.csv")
 
@@ -19,9 +18,7 @@ print(df.head())
 
 
 
-# 2. CHECK  QUALITY OF DATA
-
-
+# 2. Check quality of data if any duplicate or any missing values
 
 print("--DATA QUALITY CHECK--")
 print("\nData types:")
@@ -37,7 +34,7 @@ print("\nNumber of unique matches:")
 print(df["match_id"].nunique())
 
 
-# 3. DATA CLEAN (NUMERIC VARIABLES)
+# 3. data cleaning : converting into number and if not convertable error coerce
 
 
 df["possession"] = pd.to_numeric(
@@ -49,7 +46,7 @@ df["goals"] = pd.to_numeric(
     df["goals"],
     errors="coerce"
 )
-
+#dropna used to remove the missing values from the dataset
 df = df.dropna(
     subset=[
         "match_id",
@@ -62,8 +59,8 @@ df = df.dropna(
 
 
 
-# 4. VALIDATE MATCH STRUCTURE ( one observation for each team that way each world cup
- # match will have two observations):
+# 4. here validate the match structure i.e one observation for each team that way each
+ # match will have two observations
 
 match_counts = df.groupby("match_id").size()
 print("--MATCH VALIDATION--")
@@ -86,7 +83,7 @@ print(len(df))
 
 
 
-# 5. HIGHER AND LOWER POSSESSION DIFFERENTIATION WITHIN EACH MATCH
+# 5. Possession differentiation within each match
 
 
 df["max_possession"] = (
@@ -138,7 +135,7 @@ print(equal_matches)
 
 
 
-# 7. REMOVE EQUAL-POSSESSION MATCHES since they cannot be classified as either of them.
+# 7. Remove equal-possession matches since they cannot be classified as either of them.
 
 equal_ids = df.loc[
     df["possession_group"] == "Equal",
@@ -154,7 +151,7 @@ analysis_population = analysis_population.drop(
     columns=["max_possession", "min_possession"]
 )
 
-# 8. FINAL POPULATION CHECK
+# 8. Final population check
 
 
 print("ANALYSIS POPULATION")
@@ -354,7 +351,7 @@ print("\nStandard deviation of goal differences:")
 print(round(goal_differences.std(), 3))
 
 
-# 95% CI FOR MEAN GOAL DIFFERENCE
+# 95% CI for mean goal difference
 
 
 n_diff = len(goal_differences)
@@ -380,7 +377,7 @@ print(
 
 
 
-# 14.ONE-SAMPLE T-TEST
+# 14.One-sample t-test
 
 alpha = 0.05
 
